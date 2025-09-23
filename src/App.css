@@ -1,0 +1,22 @@
+.login {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-wrapper {
+    min-width: 390px;
+}
+
+.submit-btn {
+    width: 100%;
+}
+
+.login-description {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 140%;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 38px;
+}

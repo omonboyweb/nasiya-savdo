@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root {
+  --primary-color: #3478f7;
+  --secondary-color: #735cd8;
+  --color: #fff;
+  --black: #1a1a1a;
+  --white: #fff;
+  --redalert: #f94d4d;
+  --yellowwarning: #ffa800;
+  --fon-color: #f6f6f6;
+  --stroke-color: #ededed;
+  --base-base-white: #fafafa;
+  --base-base-black: #0a0a0b;
+  --primary-primary: #3478f7;
+  --secondary-secondary: #aab9c5;
+  --success-success: #30af49;
+  --warning-warning: #f4c790;
+  --error-error: #f94d4d;
+  --primary-primary100: #dde9fe;
+  --primary-primary200: #bbd2fc;
+  --primary-primary300: #99bcfb;
+  --primary-primary400: #78a5fa;
+  --primary-primary500: #568ff8;
+  --primary-primary600: #0e5ff6;
+  --primary-primary700: #0850d4;
+  --primary-primary800: #0741af;
+  --primary-primary900: #053389;
+  --primary-primary1000: #042564;
+  --secondary-secondary100: #e7ebef;
+  --secondary-secondary200: #dae1e7;
+  --secondary-secondary300: #ced7de;
+  --secondary-secondary400: #c2cdd6;
+  --secondary-secondary500: #b6c3cd;
+  --secondary-secondary600: #92a5b5;
+  --secondary-secondary700: #7991a4;
+  --secondary-secondary800: #637d92;
+  --secondary-secondary900: #4a5e6d;
+  --secondary-secondary1000: #323f49;
+  --neutrals-base-white: #fafafa;
+  --neutrals-neutrals100: #e3e3e3;
+  --neutrals-neutrals200: #cccbcb;
+  --neutrals-neutrals300: #b5b3b3;
+  --neutrals-neutrals400: #9f9c9c;
+  --neutrals-neutrals500: #898384;
+  --neutrals-neutrals600: #726c6c;
+  --neutrals-neutrals700: #5a5555;
+  --neutrals-neutrals800: #433e3f;
+  --neutrals-neutrals900: #2b2829;
+  --neutrals-neutrals1000: #151314;
+  --neutrals-base-black: #0a0a0b;
+  --success-success100: #b4eabf;
+  --success-success200: #69d67e;
+  --success-success300: #227b33;
+  --warning-warning100: #f4c790;
+  --warning-warning200: #eda145;
+  --warning-warning300: #ffa800;
+  --error-error100: #fdc4c4;
+  --error-error200: #fb8888;
+  --error-error300: #da0707;
+}
+
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
