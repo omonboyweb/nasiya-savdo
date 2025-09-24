@@ -5,12 +5,15 @@ import logo from "../assets/logo.png";
 import { client } from "../config/request";
 import { setStorage } from "../store/local-storage";
 import { useNavigate } from "react-router-dom";
+import type { AxiosError } from "axios";
 
 const { Title } = Typography;
 
 const App: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
-  const navigate = useNavigate(); // ✅
+  const [backendError, setBackendError] = React.useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   const onFinish = async (values: { username: string; password: string }) => {
     setLoading(true);
@@ -19,17 +22,20 @@ const App: React.FC = () => {
         username: values.username,
         password: values.password,
       });
-      console.log(response.data);
-
-      setStorage("access_token", response.data.data.token);
-      message.success("Mufaqqiyatli qo'shildi");
-      navigate("/admin", { replace: true });
-    } catch (error: any) {
-      message.error(
-        error.response?.data?.message || "Login yoki parol noto‘g‘ri ❌"
-      );
-    } finally {
-      setLoading(false);
+      const token = response.data.data.token;
+      if (token) {
+        setStorage("access_token", token);
+        message.success("Muvaffaqiyatli qo'shildi");
+        setBackendError(null);
+        navigate("/admin", { replace: true });
+      } else {
+        message.error("Token topilmadi");
+      }
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>;
+      const errorMessage =
+        error.response?.data?.message || "Login yoki parol noto‘g‘ri ";
+      setBackendError(errorMessage);
     }
   };
 
@@ -57,21 +63,27 @@ const App: React.FC = () => {
       >
         <Form.Item
           name="username"
+          validateStatus={backendError ? "error" : ""}
+          help={backendError || ""}
           rules={[{ required: true, message: "Please input your Username!" }]}
         >
           <Input
             prefix={<UserOutlined />}
+            autoComplete="username"
             placeholder="Username"
             style={{ padding: "10px" }}
           />
         </Form.Item>
         <Form.Item
           name="password"
+          validateStatus={backendError ? "error" : ""}
+          help={backendError || ""}
           rules={[{ required: true, message: "Please input your Password!" }]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined />}
             type="password"
+            autoComplete="current-password"
             placeholder="Password"
             style={{ padding: "10px" }}
           />
