@@ -18,9 +18,9 @@ export interface CreateAdminDto {
   email: string;
 }
 
-export const useCreateAdmin = (url: string) => {
+export const useCreateAdmin = () => {
   return useMutation<AdminResponse, Error, CreateAdminDto>({
     mutationFn: (body: CreateAdminDto) =>
-      client.post<AdminResponse>(`${url}`, body).then((res) => res.data),
+      client.post<AdminResponse>("/admin", body).then((res) => res.data),
   });
 };

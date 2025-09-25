@@ -3,39 +3,77 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Flex, Layout, Typography, message } from "antd";
 import logo from "../assets/logo.png";
 import { client } from "../config/request";
-import { setStorage } from "../store/local-storage";
 import { useNavigate } from "react-router-dom";
 import type { AxiosError } from "axios";
+import { useAuth } from "../context/AuthProvider";
 
 const { Title } = Typography;
-
-const App: React.FC = () => {
+type Values = { username: string; password: string };
+const Login: React.FC = () => {
+  const [form] = Form.useForm<Values>();
   const [loading, setLoading] = React.useState(false);
-  const [backendError, setBackendError] = React.useState<string | null>(null);
-
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const onFinish = async (values: { username: string; password: string }) => {
-    setLoading(true);
-    try {
-      const response = await client.post("/admin/signin", {
-        username: values.username,
-        password: values.password,
-      });
-      const token = response.data.data.token;
-      if (token) {
-        setStorage("access_token", token);
-        message.success("Muvaffaqiyatli qo'shildi");
-        setBackendError(null);
+  const handleSuccessRedirect = (role?: string) => {
+    switch (role) {
+      case "SUPER ADMIN":
+        navigate("/super-admin", { replace: true });
+        break;
+      case "ADMIN":
         navigate("/admin", { replace: true });
-      } else {
-        message.error("Token topilmadi");
+        break;
+      case "STORE":
+        navigate("/store", { replace: true });
+        break;
+      default:
+        navigate("/", { replace: true }); // fallback
+    }
+  };
+  const onFinish = async (values: Values) => {
+    setLoading(true);
+    form.setFields([
+      { name: "username", errors: [] },
+      { name: "password", errors: [] },
+    ]);
+    try {
+      const res = await client.post("/admin/signin", values);
+      const token = res?.data?.data?.token;
+      const user = res?.data?.data;
+      if (!token) {
+        message.error("Token topilmadi — server javobi notoʻgʻri.");
+        setLoading(false);
+        return;
       }
+      console.log(res.data);
+
+      login(token, user);
+      message.success("Tizimga muvaffaqiyatli kirildi");
+      handleSuccessRedirect(user?.role);
     } catch (err) {
-      const error = err as AxiosError<{ message: string }>;
-      const errorMessage =
-        error.response?.data?.message || "Login yoki parol noto‘g‘ri ";
-      setBackendError(errorMessage);
+      const error = err as AxiosError<any>;
+      const status = error.response?.status;
+      const data = error.response?.data;
+      if (status === 422 && data.errors) {
+        const fields = Object.entries(data.errors).map(([name, msgs]: any) => ({
+          name,
+          errors: Array.isArray(msgs) ? msgs : [String(msgs)],
+        }));
+        form.setFields(fields);
+        message.error("Iltimos xatoliklarni toʻgʻirlang.");
+      } else if (status === 401 || status === 403) {
+        form.setFields([
+          { name: "username", errors: ["Login yoki parol noto‘g‘ri"] },
+          { name: "password", errors: ["Login yoki parol noto‘g‘ri"] },
+        ]);
+        message.error("Login yoki parol noto'g'ri");
+      } else {
+        const msg =
+          data?.message || "Server bilan aloqa vaqtida xatolik yuz berdi";
+        message.error(msg);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,16 +94,14 @@ const App: React.FC = () => {
         </Typography>
       </Flex>
       <Form
+        form={form}
         name="login"
-        initialValues={{ remember: true }}
         style={{ maxWidth: 600, minWidth: 390 }}
         onFinish={onFinish}
       >
         <Form.Item
           name="username"
-          validateStatus={backendError ? "error" : ""}
-          help={backendError || ""}
-          rules={[{ required: true, message: "Please input your Username!" }]}
+          rules={[{ required: true, message: "Username kiritilishi shart" }]}
         >
           <Input
             prefix={<UserOutlined />}
@@ -76,8 +112,6 @@ const App: React.FC = () => {
         </Form.Item>
         <Form.Item
           name="password"
-          validateStatus={backendError ? "error" : ""}
-          help={backendError || ""}
           rules={[{ required: true, message: "Please input your Password!" }]}
         >
           <Input.Password
@@ -104,4 +138,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Login;

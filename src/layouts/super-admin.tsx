@@ -7,11 +7,11 @@ import {
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
-const AdminLayout: React.FC = () => {
+const SuperAdmin: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -35,22 +35,22 @@ const AdminLayout: React.FC = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={["/super-admin/admins"]}
           items={[
             {
-              key: "1",
+              key: "/super-admin/admins",
               icon: <UserOutlined />,
-              label: "Admins",
+              label: <Link to={"/super-admin/admins"}>Admins</Link>,
             },
             {
-              key: "2",
+              key: "/super-admin/store",
               icon: <VideoCameraOutlined />,
-              label: "Sellers",
+              label: <Link to="/super-admin/store">Sellers</Link>,
             },
             {
-              key: "3",
+              key: "/super-admin/debtor",
               icon: <UploadOutlined />,
-              label: "All products",
+              label: <Link to="/super-admin/debtor">Debtor</Link>,
             },
           ]}
         />
@@ -84,4 +84,4 @@ const AdminLayout: React.FC = () => {
   );
 };
 
-export default AdminLayout;
+export default SuperAdmin;

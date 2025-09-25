@@ -1,48 +1,64 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/login";
-import AdminLayout from "./layouts/admin-layout";
+import { ProtectedRoute } from "./components/PrivateRoute";
+import AllAdmin from "./pages/admin/all-admin";
 import SellerLayout from "./layouts/seller-layout";
-import Home from "./pages/admin/home";
-import { getStorage } from "./store/local-storage";
+import SuperAdmin from "./layouts/super-admin";
+import { AdminLayouts } from "./layouts/admin";
+import { Store } from "./pages/admin/store";
+import { Debtor } from "./pages/admin/debtor";
 
 function App() {
-  const token = getStorage("access_token");
-  const role = getStorage("role");
-
   return (
     <Routes>
+      {/* Login page */}
+      <Route path="/" element={<Login />} />
+
+      {/* SUPER ADMIN layout */}
       <Route
-        path="/"
+        path="/super-admin"
         element={
-          token ? (
-            role === "admin" ? (
-              <Navigate to="/seller" replace />
-            ) : (
-              <Navigate to="/admin" replace />
-            )
-          ) : (
-            <Navigate to="/login" replace />
-          )
+          <ProtectedRoute roles={["SUPER ADMIN"]}>
+            <SuperAdmin />
+          </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<AllAdmin />} />
+        <Route path="admins" element={<AllAdmin />} />
+        <Route path="store" element={<Store />} />
+        <Route path="debtor" element={<Debtor />} />
+      </Route>
 
-      <Route path="/login" element={<Login />} />
-
+      {/* ADMIN layout */}
       <Route
         path="/admin"
-        element={token ? <AdminLayout /> : <Navigate to="/login" replace />}
+        element={
+          <ProtectedRoute roles={["ADMIN"]}>
+            <AdminLayouts />
+          </ProtectedRoute>
+        }
       >
-        <Route index element={<Home />} />
-        <Route path="home" element={<Home />} />
+        <Route index element={<AllAdmin />} />
+        <Route path="users" element={<div>👤 Userlar</div>} />
       </Route>
 
+      {/* STORE layout */}
       <Route
-        path="/seller"
-        element={token ? <SellerLayout /> : <Navigate to="/login" replace />}
+        path="/store"
+        element={
+          <ProtectedRoute roles={["STORE"]}>
+            <SellerLayout />
+          </ProtectedRoute>
+        }
       >
-        <Route index element={<div>Seller Home</div>} />
+        <Route index element={<div>Store Dashboard</div>} />
+        <Route path="products" element={<div>📦 Mahsulotlar</div>} />
       </Route>
+
+      {/* Unauthorized va 404 */}
+      <Route path="/unauthorized" element={<div>❌ Kirish taqiqlangan</div>} />
+      <Route path="*" element={<div>404 Not Found</div>} />
     </Routes>
   );
 }
