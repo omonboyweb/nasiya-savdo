@@ -52,3 +52,21 @@
     color: #fff;
     margin-left: auto;
 }
+
+.deleted-store {
+    margin-top: 10px;
+    width: fit-content;
+    border: 1px solid red;
+    border-radius: 16px;
+    padding: 3px 10px;
+    font-size: 12px;
+    background-color: red;
+    color: #fff;
+    margin-left: auto;
+}
+
+.simple__admin-store {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}

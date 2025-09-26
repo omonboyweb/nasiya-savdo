@@ -5,9 +5,11 @@ import { ProtectedRoute } from "./components/PrivateRoute";
 import AllAdmin from "./pages/admin/all-admin";
 import SellerLayout from "./layouts/seller-layout";
 import SuperAdmin from "./layouts/super-admin";
-import { AdminLayouts } from "./layouts/admin";
+import AdminLayouts from "./layouts/admin";
 import { Store } from "./pages/admin/store";
 import { Debtor } from "./pages/admin/debtor";
+import { Stores } from "./pages/simple-admin/stores";
+import { Debters } from "./pages/simple-admin/debters";
 
 function App() {
   return (
@@ -35,8 +37,10 @@ function App() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<AllAdmin />} />
-        <Route path="users" element={<div>👤 Userlar</div>} />
+        <Route index element={<Stores />} />
+        <Route path="stores" element={<Stores />} />
+        <Route path="debters" element={<Debters />} />
+        <Route path="debts" element={<Debtor />} />
       </Route>
 
       <Route

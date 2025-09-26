@@ -16,11 +16,11 @@ type storedata = {
   wallet: string; //ok
   isActive: boolean; //ok
   phoneNumber: string; //ok
-  isDeleted: false; //pending
-  role: string;
-  email: string;
-  otpCode: null | string;
-  otpExpiresAt: null | string;
+  isDeleted: false; //ok
+  role: string; //ok
+  email: string; //ok
+  otpCode: null | string; //no
+  otpExpiresAt: null | string; //no
 };
 export const StoreCard = (data: storedata) => {
   return (
@@ -78,6 +78,11 @@ export const StoreCard = (data: storedata) => {
             <p>{data.updatedAt}</p>
           </Flex>
         </Flex>
+        {data.isDeleted ? (
+          <Typography className="deleted-store">Deleted</Typography>
+        ) : (
+          ""
+        )}
       </Card>
     </div>
   );
