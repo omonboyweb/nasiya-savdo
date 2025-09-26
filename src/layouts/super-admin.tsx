@@ -75,6 +75,7 @@ const SuperAdmin: React.FC = () => {
             minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
+            overflowY: "auto", // vertikal scroll
           }}
         >
           <Outlet />

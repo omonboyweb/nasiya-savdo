@@ -12,10 +12,7 @@ import { Debtor } from "./pages/admin/debtor";
 function App() {
   return (
     <Routes>
-      {/* Login page */}
       <Route path="/" element={<Login />} />
-
-      {/* SUPER ADMIN layout */}
       <Route
         path="/super-admin"
         element={
@@ -30,7 +27,6 @@ function App() {
         <Route path="debtor" element={<Debtor />} />
       </Route>
 
-      {/* ADMIN layout */}
       <Route
         path="/admin"
         element={
@@ -43,7 +39,6 @@ function App() {
         <Route path="users" element={<div>👤 Userlar</div>} />
       </Route>
 
-      {/* STORE layout */}
       <Route
         path="/store"
         element={
@@ -56,7 +51,6 @@ function App() {
         <Route path="products" element={<div>📦 Mahsulotlar</div>} />
       </Route>
 
-      {/* Unauthorized va 404 */}
       <Route path="/unauthorized" element={<div>❌ Kirish taqiqlangan</div>} />
       <Route path="*" element={<div>404 Not Found</div>} />
     </Routes>

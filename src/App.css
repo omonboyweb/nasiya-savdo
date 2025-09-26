@@ -20,3 +20,35 @@
     color: rgba(0, 0, 0, 0.6);
     margin-bottom: 38px;
 }
+
+.store-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+
+.store-card {
+    box-shadow: 0 0 20px 1px #ccc;
+
+}
+
+.isActive {
+    border: 1px solid #1677ff;
+    border-radius: 16px;
+    padding: 3px 10px;
+    font-size: 14px;
+    background-color: #1677ff;
+    color: #fff;
+    margin-left: auto;
+}
+
+.notActive {
+    border: 1px solid red;
+    border-radius: 16px;
+    padding: 3px 10px;
+    font-size: 14px;
+    background-color: red;
+    color: #fff;
+    margin-left: auto;
+}

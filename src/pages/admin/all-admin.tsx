@@ -8,7 +8,7 @@ import CreateAdmin from "./crete-admin";
 interface DataType {
   key: React.Key;
   name: string;
-  status?: string;
+  status?: boolean;
   action?: string;
 }
 

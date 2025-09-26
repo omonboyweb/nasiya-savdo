@@ -1,20 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Flex, Layout, Typography, message } from "antd";
 import logo from "../assets/logo.png";
 import { client } from "../config/request";
 import { useNavigate } from "react-router-dom";
 import type { AxiosError } from "axios";
-import { useAuth } from "../context/AuthProvider";
+import { getAuth } from "../context/AuthProvider";
+import { getStorage } from "../store/local-storage";
 
 const { Title } = Typography;
 type Values = { username: string; password: string };
+type Users = {
+  role: "SUPER ADMIN" | "ADMIN" | "STORE";
+  // boshqa fieldlar bo‘lsa ham yozib qo‘ying
+};
+
 const Login: React.FC = () => {
   const [form] = Form.useForm<Values>();
   const [loading, setLoading] = React.useState(false);
-  const { login } = useAuth();
+  const { login } = getAuth();
   const navigate = useNavigate();
+  console.log(getStorage("access_token"));
+  console.log(getStorage("user"));
 
+  useEffect(() => {
+    const role_id = getStorage<Users>("user");
+    switch (role_id?.role) {
+      case "SUPER ADMIN":
+        navigate("/super-admin", { replace: true });
+        break;
+      case "ADMIN":
+        navigate("/admin", { replace: true });
+        break;
+      case "STORE":
+        navigate("/store", { replace: true });
+        break;
+      default:
+        navigate("/", { replace: true }); // fallback
+    }
+  }, []);
   const handleSuccessRedirect = (role?: string) => {
     switch (role) {
       case "SUPER ADMIN":
