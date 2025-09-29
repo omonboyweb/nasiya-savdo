@@ -1,4 +1,6 @@
+import { Flex } from "antd";
 import { StoreCard } from "../../components/common/store-card";
+import CreateStore from "../../components/layout/create-store";
 import { useGetData } from "../../config/useGetdata";
 type storedata = {
   id: string | number;
@@ -24,6 +26,9 @@ export const Stores = () => {
           <StoreCard key={item.id} {...item} />
         ))}
       </div>
+      <Flex justify="center" style={{ padding: "30px", marginTop: "50px" }}>
+        <CreateStore />
+      </Flex>
     </>
   );
 };
